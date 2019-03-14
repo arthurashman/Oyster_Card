@@ -11,11 +11,11 @@ describe Journey do
 
   describe '#start_journey' do
     it 'starts a journey' do
-      expect { subject.start_journey(entry_station) } .to change { subject.entry_station }
+      expect { subject.start_journey(entry_station) } .to change{ subject.entry_station }
     end
 
     it 'end a journey' do
-      expect { subject.end_journey(exit_station) } .to change { subject.exit_station }
+      expect { subject.end_journey(exit_station) } .to change{ subject.exit_station }
     end
 
     describe ' completed journeys' do

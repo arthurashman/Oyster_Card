@@ -58,7 +58,9 @@ describe Oystercard do
   end
 
   describe '#touch_out' do
+
     it 'deducts the minimum fare at the end of the journey' do
+      touch_in
       expect { touch_out }.to change { @card.balance }.by -Oystercard::MINIMUM_FARE
     end
 
@@ -74,7 +76,8 @@ describe Oystercard do
     it 'stores a journey' do
       touch_in
       touch_out
-      expect(@card.view_trips[0]).to eq(entry_station: entry_station, exit_station: exit_station)
+
+      expect(@card.view_trips[0].entry_station).to eq entry_station
     end
   end
 end
