@@ -62,6 +62,11 @@ describe Oystercard do
       expect { touch_out }.to change { @card.balance }.by -Oystercard::MINIMUM_FARE
     end
 
+    it 'stores the exit station' do
+      touch_out
+      expect(@card.exit_station).to eq exit_station
+    end
+
     it 'it shows that you are no longer in the entry station' do
       expect(touch_out).to be nil
     end
