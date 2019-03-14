@@ -17,7 +17,7 @@ class Journey
   end
 
   def journey_complete?
-    @entry_station || @exit_station ? true : false
+    @entry_station && @exit_station ? true : false
   end
 
   def calculate_fare
