@@ -8,7 +8,7 @@ describe Oystercard do
 
 
   it 'allows the customer to touch in and pass through the barriers' do
-    expect(@card).to respond_to(:touch_in)
+    expect(@card).to respond_to(:touch_in).with(1).argument
   end
 
   describe '#balance' do
@@ -33,32 +33,26 @@ describe Oystercard do
       end
   end
 
-  describe '#deduct' do
-      it 'responds to deduct method' do
-          expect(@card).to respond_to(:deduct)
-      end
-
-      it 'balance should change when deducted' do
-          expect(@card.deduct(Oystercard::MINIMUM_FARE)).to eq(0)
-      end
-  end
-
-  describe '#in_journey?' do
-    it 'returns true if oystercard is in journey' do
-      @card.touch_in
-      expect(@card).to be_in_journey
-    end
-    it 'returns false if oystercard is not in journey' do
-      @card.touch_in
-      @card.touch_out
-      expect(@card).to_not be_in_journey
-    end
-  end
+  # describe '#deduct' do
+  #     it 'responds to deduct method' do
+  #         expect(@card).to respond_to(:deduct)
+  #     end
+  #
+  #     it 'balance should change when deducted' do
+  #         expect(@card.deduct(Oystercard::MINIMUM_FARE)).to eq(0)
+  #     end
+  # end
+#
 
   describe '#touch_in' do
     it 'raises an error if balance is below minimum fare' do
       card = Oystercard.new
-      expect{ card.touch_in }.to raise_error "Insufficient funds"
+      expect{ card.touch_in("Pimlico") }.to raise_error "Insufficient funds"
+    end
+
+    it 'stores the entry station' do
+      @card.touch_in("Pimlico")
+      expect(@card).to have_attributes(:entry_station => "Pimlico")
     end
   end
 
@@ -66,7 +60,17 @@ describe Oystercard do
     it 'deducts the minimum fare at the end of the journey' do
       @card.touch_out
       expect(@card.balance).to eq(0)
+
     end
-  end
+
+      it 'it shows that you are no longer in the entry station' do
+        @card.touch_in("Pimlico")
+        @card.touch_out
+        expect(@card).to have_attributes(:entry_station => nil)
+      end
+    end
+
+
+
 
 end
